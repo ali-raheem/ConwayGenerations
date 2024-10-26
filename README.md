@@ -6,3 +6,4 @@ See [Conway](https://github.com/ali-raheem/conway/) for a low footprint basic ga
 
 Watch a run on [Youtube](https://youtu.be/VNp8FQVHZYA)
 
+![An example running in Serial on Arduino](./screenshot-arduino.png)
