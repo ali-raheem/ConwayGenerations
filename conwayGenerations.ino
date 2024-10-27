@@ -4,28 +4,28 @@ ConwayGenerations keeps track of how long a cell has been alive
 ConwayGenerations is optimized for memory usage targetting microcontrollers.
 Copyright Ali Raheem 2024 - https://github.com/ali-raheem/ConwayGenerations
 MIT Licensed
-File version: 2024-10-27 09:33 GMT
+File version: 2024-10-27 14:42 GMT
 */
 #include "conwaygenerations.h"
 
 const int rows = 32;
 const int cols = 32;
 
-uint8_t state[rows][cols];
+uint8_t state[rows][cols]; // The state array
 ConwayGenerations<rows, cols> gol(state);
 
 void setup() {
     Serial.begin(115200);
     Serial.println("Conway Generations!");
     randomSeed(1);
-
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < cols; j++) {
-            state[i][j] = random(0, 2);
-            Serial.print((state[i][j] > 0) ? " - " : "   ");
-        }
-        Serial.println();
-    }
+//
+//    for(int i = 0; i < rows; i++) {
+//        for(int j = 0; j < cols; j++) {
+//            state[i][j] = random(0, 2);
+//            Serial.print((state[i][j] > 0) ? " - " : "   ");
+//        }
+//        Serial.println();
+//    }
     state[10][10] = 1;
     state[11][10] = 1;
     state[12][10] = 1;
@@ -56,26 +56,29 @@ void loop() {
             uint8_t s = state[i][j];
             switch(s) {
                 case 0:
-                    Serial.print("   ");
+                    Serial.print(F("   "));
                     break;
                 case 1:
-                    Serial.print(" - ");
+                    Serial.print(F(" ' "));
                     break;
                 case 2:
-                    Serial.print(" + ");
+                    Serial.print(F(" - "));
                     break;
                 case 3:
-                    Serial.print(" = ");
+                    Serial.print(F(" + "));
                     break;
                 case 4:
-                    Serial.print(" # ");
+                    Serial.print(F(" = "));
+                    break;
+                case 5:
+                    Serial.print(F(" # "));
                     break;
                 default:
-                    Serial.print(" @ ");
+                    Serial.print(F(" @ "));
             }
         }
        Serial.println("|");
     }
     gol.next();
-    delay(200);
+    delay(100);
 }
