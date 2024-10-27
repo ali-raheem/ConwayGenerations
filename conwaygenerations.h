@@ -1,11 +1,10 @@
-
 /*
 ConwayGenerations is a library for running John Conway's Game of Life
 ConwayGenerations keeps track of how long a cell has been alive
 ConwayGenerations is optimized for memory usage targetting microcontrollers.
 Copyright Ali Raheem 2024 - https://github.com/ali-raheem/ConwayGenerations
 MIT Licensed
-File version: 2024-10-27 14:20 GMT
+File version: 2024-10-27 21:48 GMT
 */
 
 #pragma once
@@ -57,7 +56,7 @@ private:
             case 3:
                 return s + 1;
             case 4:
-                return s;
+                return (s == 0)? 0 : s + 1;
             default:
                 return 0;
         }
