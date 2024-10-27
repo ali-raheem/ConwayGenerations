@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
             break;
 
         generations++;
-        this_thread::sleep_for(chrono::milliseconds(pause_duration));
+	this_thread::sleep_for(chrono::milliseconds(pause_duration));
     }
 
     return 0;
