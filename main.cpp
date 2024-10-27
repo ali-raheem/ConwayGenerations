@@ -23,15 +23,14 @@ const int rows = 32;
 const int cols = 32;
 
 int main(int argc, char* argv[]) {
-    uint8_t state[rows][cols];
+    array<std::array<uint8_t, cols>, rows> state{};
     ConwayGenerations<rows, cols> gol(state);
-    unsigned generations = 0;
     int max_generations = -1;
     int max_staleness = -1;
     int pause_duration = 200;
 
     for (int i = 1; i < argc; ++i) {
-        string arg = argv[i];
+      std::string_view arg = argv[i];
 
         if ((arg == "-s" || arg == "--staleness") && i + 1 < argc) {
             max_staleness = stoi(argv[++i]);
@@ -52,26 +51,25 @@ int main(int argc, char* argv[]) {
     mt19937 generator(seed);
     uniform_int_distribution<int> distribution(0, 1);
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            state[i][j] = distribution(generator);
+    for (auto& row: state) {
+      for (auto& cell : row) {
+            cell = distribution(generator);
         }
     }
 
-    uint8_t prev_state[rows][cols];
+    std::array<std::array<uint8_t, cols>, rows> prev_state;
     int staleness = 0;
 
-    while (true) {
+    for (unsigned generations = 0; max_generations < 0
+	   || generations < max_generations; ++generations) {
         cout << "\033[2J\033[H";
 
-        memcpy(prev_state, state, sizeof(state));
-
+	std::copy(prev_state.begin(), prev_state.end(), state.begin());
         gol.next();
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                uint8_t s = state[i][j];
-		switch (s) {
+        for (auto& row: state) {
+	  for (auto& cell: row) {
+		switch (cell) {
 		case 0:
 		  cout << "   ";
 		  break;
@@ -95,7 +93,7 @@ int main(int argc, char* argv[]) {
         }
         cout << endl;
 
-        bool is_stale = (memcmp(prev_state, state, sizeof(state)) == 0);
+        bool is_stale = std::equal(prev_state.begin(), prev_state.end(), state.begin());
         if (is_stale) {
             staleness++;
         } else {
@@ -105,7 +103,6 @@ int main(int argc, char* argv[]) {
         if (max_staleness >= 0 && staleness > max_staleness)
             break;
 
-        generations++;
 	this_thread::sleep_for(chrono::milliseconds(pause_duration));
     }
 
