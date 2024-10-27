@@ -4,7 +4,7 @@ ConwayGenerations keeps track of how long a cell has been alive
 ConwayGenerations is optimized for memory usage targetting microcontrollers.
 Copyright Ali Raheem 2024 - https://github.com/ali-raheem/ConwayGenerations
 MIT Licensed
-File version: 2024-10-27 14:20 GMT
+File version: 2024-10-27 14:35 GMT
 */
 
 #pragma once
@@ -29,10 +29,10 @@ public:
         uint8_t sum_r = 0, sum_c = 0, sum_l = 0;
         for(int i = 0; i < rows; i++) {
             memcpy(curRow, state[i], cols);
-            uint8_t *nextRow = (i == rows - 1)? firstRow : state[(i + 1) % rows];
-            sum_l = !!prevRow[(cols - 1) % cols]
-                  + !!curRow[(cols - 1) % cols]
-                  + !!nextRow[(cols - 1) % cols];
+            uint8_t *nextRow = (i == rows - 1)? firstRow : state[i + 1];
+            sum_l = !!prevRow[cols - 1]
+                  + !!curRow[cols - 1]
+                  + !!nextRow[cols - 1];
             sum_c = !!prevRow[0]
                   + !!curRow[0]
                   + !!nextRow[0];
@@ -56,7 +56,7 @@ private:
             case 3:
                 return s + 1;
             case 4:
-                return (s == 0) ? 0 : s + 1;
+                return s;
             default:
                 return 0;
         }
