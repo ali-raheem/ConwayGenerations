@@ -70,7 +70,29 @@ int main(int argc, char* argv[]) {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                uint8_t s = state[i][j];
+	      uint8_t s = state[i][j] >> 4;
+	      s &= static_cast<uint8_t>(0b1111);
+		switch (s) {
+		case 0:
+		  cout << "   ";
+		  break;
+		case 1:
+		  cout << " - ";
+		  break;
+		case 2:
+		  cout << " + ";
+		  break;
+		case 3:
+		  cout << " = ";
+		  break;
+		case 4:
+		  cout << " # ";
+		  break;
+		default:
+		  cout << " @ ";
+		}
+               s = state[i][j];
+	      s &= static_cast<uint8_t>(0b1111);
 		switch (s) {
 		case 0:
 		  cout << "   ";
