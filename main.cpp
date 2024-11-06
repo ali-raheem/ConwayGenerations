@@ -21,10 +21,10 @@ using namespace std;
 
 const int rows = 32;
 const int cols = 8; // 2 bits per cell, 4 cells per uint8_t 8 bytes gives 32 cells.
+const uint8_t bits = 2; // 8 (bits per byte) / bits = number of cells per byte, * cols = number of cells per row.
 
 int main(int argc, char* argv[]) {
     uint8_t state[rows][cols];
-    uint8_t bits = 2;
     ConwayGenerations<rows, cols> gol(state, bits);
     unsigned generations = 0;
     int max_generations = -1;

@@ -10,74 +10,47 @@ File version: 2024-11-06 00:15 GMT
 #include "conwaygenerations.h"
 
 const int rows = 32;
-const int cols = 16;
+const int cols = 4;
+uint8_t bits = 1;
 
-uint8_t state[rows][cols]; // The state array
-ConwayGenerations<rows, cols> gol(state);
+uint8_t state[rows][cols];
+ConwayGenerations<rows, cols> gol(state, bits);
 
 void setup() {
     Serial.begin(115200);
     Serial.println("Conway Generations!");
     randomSeed(1);
 
+    uint8_t totalCells = gol.getTotalCellsInRow();
+    uint8_t maxCellValue = (1 << bits) - 1;
+
     for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < cols; j++) {
-            state[i][j] = random(0, 2);
-            Serial.print((state[i][j] > 0) ? " - " : "   ");
+        for(uint8_t j = 0; j < totalCells; j++) {
+            uint8_t randomValue = random(0, 2);
+            gol.setCell(state[i], j, randomValue);
+            Serial.print((randomValue > 0) ? " ' " : "   ");
         }
         Serial.println();
     }
-//    state[10][10] = 1;
-//    state[11][10] = 1;
-//    state[12][10] = 1;
-//    state[12][9] = 1;
-//    state[11][8] = 1;
-//
-//    state[20][0] = 1;
-//    state[21][0] = 1;
-//    state[22][0] = 1;
-//
-//    state[0][10] = 1;
-//    state[0][11] = 1;
-//    state[0][12] = 1;
-    
     Serial.println();
 }
 
-void printFrame(){
-      Serial.println(F("+------------------------------------------------------------------------------------------------+"));
+void printFrame() {
+    Serial.println(F("+------------------------------------------------------------------------------------------------+"));
 }
+
 void loop() {
     printFrame();
     Serial.println(gol.generation);
     printFrame();
+
+    uint8_t totalCells = gol.getTotalCellsInRow();
+
     for(int i = 0; i < rows; i++) {
-      Serial.print("|");
-        for(int j = 0; j < cols; j++) {
-            uint8_t s = (state[i][j] >> 4) & 0x0F;
-            switch(s) {
-                case 0:
-                    Serial.print(F("   "));
-                    break;
-                case 1:
-                    Serial.print(F(" ' "));
-                    break;
-                case 2:
-                    Serial.print(F(" - "));
-                    break;
-                case 3:
-                    Serial.print(F(" + "));
-                    break;
-                case 4:
-                    Serial.print(F(" = "));
-                    break;
-                case 5:
-                    Serial.print(F(" # "));
-                    break;
-                default:
-                    Serial.print(F(" @ "));
-            }
-            s = state[i][j] & 0x0F;
+        Serial.print("|");
+        for(uint8_t j = 0; j < totalCells; j++) {
+            uint8_t s = gol.getCell(state[i], j);
+
             switch(s) {
                 case 0:
                     Serial.print(F("   "));
@@ -101,7 +74,7 @@ void loop() {
                     Serial.print(F(" @ "));
             }
         }
-       Serial.println("|");
+        Serial.println("|");
     }
     gol.next();
     delay(100);

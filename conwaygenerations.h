@@ -7,14 +7,12 @@ MIT Licensed
 File version: 2024-11-06 10:13 GMT
 */
 
-
-
 template<int rows, int cols>
 class ConwayGenerations {
 public:
   ConwayGenerations(uint8_t (&state)[rows][cols], uint8_t bits)
     : state(state), generation(0), bits(bits), colCells(8 / bits), mask((1 << bits) - 1) {}
-  
+  uint8_t (&state)[rows][cols];
   uint16_t generation;
   uint8_t bits;
   uint8_t colCells;
@@ -52,7 +50,6 @@ public:
       
       uint8_t sum_l = 0, sum_c = 0, sum_r = 0;
       
-      // Adjusted to use totalCells instead of colCells * cols
       uint8_t totalCells = colCells * cols;
       sum_l = !!getNibble(prevRow, totalCells - 1)
 	+ !!getNibble(curRow, totalCells - 1)
@@ -80,8 +77,6 @@ public:
   }
   
 private:
-  uint8_t (&state)[rows][cols];
-  
   template <typename T, typename U>
   inline uint8_t cgmin(T x, U cap) {
     T tcap = static_cast<T>(cap);
