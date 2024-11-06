@@ -20,11 +20,11 @@ File version: 2024-11-06 10:12 GMT
 using namespace std;
 
 const int rows = 32;
-const int cols = 8;
+const int cols = 8; // 2 bits per cell, 4 cells per uint8_t 8 bytes gives 32 cells.
 
 int main(int argc, char* argv[]) {
     uint8_t state[rows][cols];
-    uint8_t bits = 2; // Or any other valid value (1, 2, 4)
+    uint8_t bits = 2;
     ConwayGenerations<rows, cols> gol(state, bits);
     unsigned generations = 0;
     int max_generations = -1;
@@ -55,7 +55,6 @@ int main(int argc, char* argv[]) {
 
     uint8_t totalCells = gol.getTotalCellsInRow();
 
-    // Initialize each cell individually
     for (int i = 0; i < rows; i++) {
         for (uint8_t j = 0; j < totalCells; j++) {
             uint8_t randomValue = distribution(generator);
@@ -77,7 +76,6 @@ int main(int argc, char* argv[]) {
             for (uint8_t j = 0; j < totalCells; j++) {
                 uint8_t s = gol.getCell(state[i], j);
 
-                // Adjust the display based on the cell value
                 switch (s) {
                     case 0:
                         cout << "   ";
