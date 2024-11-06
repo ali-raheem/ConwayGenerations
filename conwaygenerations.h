@@ -1,3 +1,12 @@
+/*
+ConwayGenerations is a library for running John Conway's Game of Life
+ConwayGenerations keeps track of how long a cell has been alive
+ConwayGenerations is optimized for memory usage targetting microcontrollers.
+Copyright Ali Raheem 2024 - https://github.com/ali-raheem/ConwayGenerations
+MIT Licensed
+File version: 2024-11-06 00:15 GMT
+*/
+
 template<int rows, int cols>
 class ConwayGenerations {
 public:

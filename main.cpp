@@ -4,7 +4,7 @@ ConwayGenerations keeps track of how long a cell has been alive
 ConwayGenerations is optimized for memory usage targetting microcontrollers.
 Copyright Ali Raheem 2024 - https://github.com/ali-raheem/ConwayGenerations
 MIT Licensed
-File version: 2024-10-26 12:36 GMT
+File version: 2024-11-06 00:15 GMT
 */
 
 #include <iostream>
