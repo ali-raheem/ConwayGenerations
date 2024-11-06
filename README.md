@@ -9,7 +9,7 @@ Bits can be set to 1, 2, 4, 8 depending on what you want allowing for more compl
 ## Representative SRAM usage by bits (32x32 board)
 
 | Bits | SRAM usage |
-+------+------------+
+|------|------------|
 | 8    | 61%        |
 | 4    | 36%        |
 | 2    | 23%        |
