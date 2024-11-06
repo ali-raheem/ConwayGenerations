@@ -11,11 +11,15 @@ public:
         uint8_t firstRow[cols];
         uint8_t curRow[cols];
 
-        std::copy(std::begin(state[0]), std::end(state[0]), firstRow);
-        std::copy(std::begin(state[rows - 1]), std::end(state[rows - 1]), prevRow);
+	memcpy(firstRow, state[0], cols);
+        memcpy(prevRow, state[rows - 1], cols);
+	// No fancy C++ for you arduino...
+        // std::copy(std::begin(state[0]), std::end(state[0]), firstRow);
+        // std::copy(std::begin(state[rows - 1]), std::end(state[rows - 1]), prevRow);
 
         for(int i = 0; i < rows; i++) {
-            std::copy(std::begin(state[i]), std::end(state[i]), curRow);
+	  memcpy(curRow, state[i], cols);
+          //  std::copy(std::begin(state[i]), std::end(state[i]), curRow);
             uint8_t* nextRow = (i == rows - 1) ? firstRow : state[i + 1];
 
             uint8_t sum_l = 0, sum_c = 0, sum_r = 0;
@@ -40,7 +44,8 @@ public:
                 sum_l = sum_c;
                 sum_c = sum_r;
             }
-            std::copy(std::begin(curRow), std::end(curRow), prevRow);
+	    memcpy(prevRow, curRow, cols);
+	    //            std::copy(std::begin(curRow), std::end(curRow), prevRow);
         }
         generation++;
     }
