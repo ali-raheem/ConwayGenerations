@@ -4,9 +4,8 @@ ConwayGenerations keeps track of how long a cell has been alive
 ConwayGenerations is optimized for memory usage targetting microcontrollers.
 Copyright Ali Raheem 2024 - https://github.com/ali-raheem/ConwayGenerations
 MIT Licensed
-File version: 2024-11-06 10:12 GMT
+File version: 2024-11-24 14:28 GMT
 */
-
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -70,7 +69,11 @@ int main(int argc, char* argv[]) {
 
         memcpy(prev_state, state, sizeof(state));
 
+        auto start_time = chrono::high_resolution_clock::now();
         gol.next();
+        auto end_time = chrono::high_resolution_clock::now();
+
+        chrono::duration<double, milli> duration = end_time - start_time;
 
         for (int i = 0; i < rows; i++) {
             for (uint8_t j = 0; j < totalCells; j++) {
@@ -94,6 +97,8 @@ int main(int argc, char* argv[]) {
         }
         cout << endl;
 
+        cout << "Frame calculation time: " << duration.count() << " ms" << endl;
+
         bool is_stale = (memcmp(prev_state, state, sizeof(state)) == 0);
         if (is_stale) {
             staleness++;
@@ -105,6 +110,9 @@ int main(int argc, char* argv[]) {
             break;
 
         generations++;
+        if (max_generations >= 0 && generations >= max_generations)
+            break;
+
         this_thread::sleep_for(chrono::milliseconds(pause_duration));
     }
 
